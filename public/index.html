@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>השוואת מחירי סופרמרקטים - בני ברק</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 השוואת מחירי סופרמרקטים</h1>
+    <div id="status-bar">
+      <span id="last-update">לא עודכן</span>
+      <span id="store-count">0 סניפים</span>
+      <span id="product-count">0 מוצרים</span>
+      <span id="conn-status" class="offline">●</span>
+    </div>
+  </header>
+
+  <nav id="tabs">
+    <button class="tab active" data-tab="search">🔍 חיפוש מוצר</button>
+    <button class="tab" data-tab="list">📝 רשימת קניות</button>
+    <button class="tab" data-tab="update">🔄 עדכון מחירים</button>
+    <button class="tab" data-tab="io">📁 ייבוא / ייצוא</button>
+  </nav>
+
+  <!-- ─── Search Tab ─── -->
+  <section id="tab-search" class="tab-content active">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="חפש מוצר לפי שם או ברקוד..." autocomplete="off">
+      <button id="search-btn" onclick="Search.performSearch()">חפש</button>
+    </div>
+    <div id="search-results" class="results"></div>
+  </section>
+
+  <!-- ─── Shopping List Tab ─── -->
+  <section id="tab-list" class="tab-content">
+    <div class="search-box">
+      <input type="text" id="list-add-input" placeholder="הוסף מוצר לרשימה..." autocomplete="off">
+      <button onclick="ShoppingList.addFromSearch()">הוסף</button>
+    </div>
+    <div id="list-suggestions" class="suggestions"></div>
+    <div id="shopping-list" class="shopping-list"></div>
+    <div id="list-totals" class="list-totals"></div>
+  </section>
+
+  <!-- ─── Update Tab ─── -->
+  <section id="tab-update" class="tab-content">
+    <div class="update-info">
+      <p>עדכון מחירים מוריד נתונים מאתרי הרשתות ושומר אותם במחשב לשימוש אופליין.</p>
+      <p class="note">ℹ️ נדרש חיבור לאינטרנט. אם העדכון נכשל, ניתן להוריד קבצים ידנית ולייבא דרך לשונית "ייבוא / ייצוא".</p>
+    </div>
+    <div id="chain-list" class="chain-list"></div>
+    <button id="update-all-btn" class="big-btn" onclick="Update.updateAll()">עדכן הכל</button>
+    <div id="update-progress" class="progress"></div>
+  </section>
+
+  <!-- ─── Import/Export Tab ─── -->
+  <section id="tab-io" class="tab-content">
+    <div class="io-section">
+      <h2>ייבוא קבצי מחירים</h2>
+      <p>בחר קובץ XML או קובץ .gz מהרשתות (מהורדה ידנית מאתר הרשת או מ-USB).</p>
+      <input type="file" id="import-files" multiple accept=".xml,.gz,.json" onchange="ImportExport.handleImport(event)">
+      <div id="import-preview" class="import-preview"></div>
+    </div>
+    <hr>
+    <div class="io-section">
+      <h2>ייצוא נתונים</h2>
+      <p>ייצא את כל הנתונים לקובץ JSON להעברה ב-USB למחשב אחר.</p>
+      <button class="big-btn" onclick="ImportExport.exportData()">ייצא נתונים (JSON)</button>
+    </div>
+    <hr>
+    <div class="io-section">
+      <h2>ייבוא נתונים מקובץ גיבוי</h2>
+      <p>ייבא קובץ JSON שיוצא ממחשב אחר.</p>
+      <input type="file" id="import-json" accept=".json" onchange="ImportExport.importJson(event)">
+    </div>
+    <hr>
+    <div class="io-section">
+      <h2>ניקוי נתונים</h2>
+      <button class="danger-btn" onclick="ImportExport.clearAll()">מחק את כל הנתונים</button>
+    </div>
+  </section>
+
+  <script src="db.js"></script>
+  <script src="parser.js"></script>
+  <script src="search.js"></script>
+  <script src="shopping-list.js"></script>
+  <script src="update.js"></script>
+  <script src="import-export.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
